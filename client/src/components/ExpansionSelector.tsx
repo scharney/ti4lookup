@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-export type ExpansionId = 'pok' | 'codex1' | 'codex2' | 'codex3' | 'codex4' | 'thundersEdge' | 'twilightsFall'
+export type ExpansionId = 'pok' | 'codex1' | 'codex2' | 'codex3' | 'codex4' | 'thundersEdge' | 'discordantStars' | 'twilightsFall'
 
 export const EXPANSION_OPTIONS: { id: ExpansionId; label: string }[] = [
   { id: 'pok', label: 'Prophecy of Kings' },
@@ -9,6 +9,7 @@ export const EXPANSION_OPTIONS: { id: ExpansionId; label: string }[] = [
   { id: 'codex3', label: 'Codex 3' },
   { id: 'codex4', label: 'Codex 4' },
   { id: 'thundersEdge', label: "Thunder's Edge" },
+  { id: 'discordantStars', label: "Discordant Stars" },
   { id: 'twilightsFall', label: "Twilight's Fall" },
 ]
 
@@ -19,6 +20,7 @@ const EXPANSION_TO_VERSION: Record<ExpansionId, string> = {
   codex3: 'codex 3',
   codex4: 'codex 4',
   thundersEdge: 'thunders edge',
+  discordantStars: 'discordant stars',
   twilightsFall: 'twilights fall',
 }
 
@@ -48,6 +50,7 @@ const EXPANSION_ORDER: ExpansionId[] = [
   'codex3',
   'codex4',
   'thundersEdge',
+  'discordantStars',
   'twilightsFall',
 ]
 
@@ -186,14 +189,14 @@ export function ExpansionSelector({
         next.add('codex2')
         next.add('codex3')
         next.add('codex4')
-      } else if (id === 'twilightsFall') {
+      } else if (id === 'twilightsFall' || id === 'discordantStars') {
         next.add('pok')
         next.add('thundersEdge')
         next.add('codex1')
         next.add('codex2')
         next.add('codex3')
         next.add('codex4')
-      }
+      } 
     }
     onChange(next)
   }
