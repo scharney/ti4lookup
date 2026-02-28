@@ -112,6 +112,13 @@ export function App() {
     return result
   }, [factions, expansions])
 
+  const priorityFactions = useMemo(() => {
+    if (!expansions.has('twilightsFall')) return []
+    return factions
+      .filter((f) => f.version.toLowerCase() !== 'twilights fall')
+      .sort((a, b) => (a.priority ?? 999) - (b.priority ?? 999))
+  }, [factions, expansions])
+
   const techNameToColor = useMemo(() => {
     const map = new Map<string, string>()
     for (const card of cards) {
@@ -402,6 +409,7 @@ export function App() {
         <main id="main-content" className="app-main home-main">
           <HomeView
             factions={visibleFactions}
+            priorityFactions={priorityFactions}
             cards={filteredCards}
             expansions={expansions}
             onOpenSearch={() => navigate({ view: 'search', factionFilter: null })}

@@ -8,21 +8,24 @@ const COPY_ICON_DARK_SRC = import.meta.env.BASE_URL + 'svg/copy_dark.svg'
 interface FactionSetupCardProps {
   faction: Faction
   techNameToColor: Map<string, string>
+  isTwilightsFall?: boolean
 }
 
-function getFactionSetupCopyText(faction: Faction): string {
+function getFactionSetupCopyText(faction: Faction, isTwilightsFall?: boolean): string {
   const parts: string[] = [faction.name]
   if (faction.startingFleet?.trim()) {
     parts.push(`Starting Fleet\n${faction.startingFleet}`)
   }
-  if (faction.startingTechnologies?.trim()) {
-    parts.push(`Starting Technologies\n${faction.startingTechnologies}`)
+  if (!isTwilightsFall) {
+    if (faction.startingTechnologies?.trim()) {
+      parts.push(`Starting Technologies\n${faction.startingTechnologies}`)
+    }
+    if (faction.commodities != null) {
+      parts.push(`${faction.commodities} Commodities`)
+    }
   }
   if (faction.homeSystem?.trim()) {
     parts.push(`Home System\n${faction.homeSystem}`)
-  }
-  if (faction.commodities != null) {
-    parts.push(`${faction.commodities} Commodities`)
   }
   if (faction.priority != null) {
     parts.push(`Twilight's Fall Priority ${faction.priority}`)
@@ -31,7 +34,7 @@ function getFactionSetupCopyText(faction: Faction): string {
   return parts.join('\n\n')
 }
 
-function FactionCopyButton({ faction }: { faction: Faction }) {
+function FactionCopyButton({ faction, isTwilightsFall }: { faction: Faction; isTwilightsFall?: boolean }) {
   const [copied, setCopied] = useState(false)
   useEffect(() => {
     if (!copied) return
@@ -40,12 +43,12 @@ function FactionCopyButton({ faction }: { faction: Faction }) {
   }, [copied])
   const handleClick = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(getFactionSetupCopyText(faction))
+      await navigator.clipboard.writeText(getFactionSetupCopyText(faction, isTwilightsFall))
       setCopied(true)
     } catch {
       /* ignore */
     }
-  }, [faction])
+  }, [faction, isTwilightsFall])
   return (
     <button
       type="button"
@@ -79,11 +82,12 @@ function parseStartingTechs(raw: string): { prefix: string; techNames: string[] 
   return { prefix: '', techNames: s ? [s] : [] }
 }
 
-export function FactionSetupCard({ faction, techNameToColor }: FactionSetupCardProps) {
+export function FactionSetupCard({ faction, techNameToColor, isTwilightsFall }: FactionSetupCardProps) {
+  const hideCommoditiesAndTech = isTwilightsFall
   const hasFleet = Boolean(faction.startingFleet?.trim())
-  const hasTech = Boolean(faction.startingTechnologies?.trim())
+  const hasTech = !hideCommoditiesAndTech && Boolean(faction.startingTechnologies?.trim())
   const hasHomeSystem = Boolean(faction.homeSystem?.trim())
-  const hasCommodities = faction.commodities != null
+  const hasCommodities = !hideCommoditiesAndTech && faction.commodities != null
   const hasPriority = faction.priority != null
   const { prefix, techNames } = parseStartingTechs(faction.startingTechnologies ?? '')
 
@@ -126,7 +130,7 @@ export function FactionSetupCard({ faction, techNameToColor }: FactionSetupCardP
           />
           <span className="result-row__name">{faction.name}</span>
         </div>
-        <FactionCopyButton faction={faction} />
+        <FactionCopyButton faction={faction} isTwilightsFall={isTwilightsFall} />
       </header>
       {(hasFleet || hasTech || hasHomeSystem || hasCommodities || hasPriority) && (
         <div className="result-row__faction-setup-body">
@@ -156,6 +160,7 @@ export function FactionSetupCard({ faction, techNameToColor }: FactionSetupCardP
               <p className="result-row__label">{faction.commodities} Commodities</p>
             </>
           )}
+          {(hasFleet || hasTech || hasHomeSystem || hasCommodities) && hasPriority && <div style={{ marginBottom: '1em' }} />}
           {hasPriority && (
             <>
               <p className="result-row__label">Twilight's Fall Priority {faction.priority}</p>

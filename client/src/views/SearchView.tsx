@@ -140,7 +140,7 @@ export function SearchView({
               <section className="results-section" aria-label="Faction Setup">
                 <ul className="results-list" role="list">
                   <li className="results-list__item">
-                    <FactionSetupCard faction={faction} techNameToColor={techNameToColor} />
+                    <FactionSetupCard faction={faction} techNameToColor={techNameToColor} isTwilightsFall={isTwilightsFall} />
                   </li>
                 </ul>
               </section>

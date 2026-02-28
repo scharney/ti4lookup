@@ -166,6 +166,46 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ti4lookup.com/factions/avarice</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ti4lookup.com/factions/janovet</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ti4lookup.com/factions/viroset</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ti4lookup.com/factions/Herald%20of%20Thorns%22</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ti4lookup.com/factions/aur</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ti4lookup.com/factions/ruby</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ti4lookup.com/factions/saint</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ti4lookup.com/factions/lurch</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ti4lookup.com/categories/action_cards</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

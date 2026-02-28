@@ -11,6 +11,7 @@ export type View = 'home' | 'search' | 'action' | 'agenda' | 'strategy' | 'publi
 
 interface HomeViewProps {
   factions: Faction[]
+  priorityFactions: Faction[]
   cards: CardItem[]
   expansions: Set<ExpansionId>
   onOpenSearch: () => void
@@ -39,7 +40,7 @@ function getCategoryButtonLabels(expansions: Set<ExpansionId>): { view: Exclude<
   ]
 }
 
-export function HomeView({ factions, cards, expansions, onOpenSearch, onOpenFaction, onOpenCategory }: HomeViewProps) {
+export function HomeView({ factions, priorityFactions, cards, expansions, onOpenSearch, onOpenFaction, onOpenCategory }: HomeViewProps) {
   const categoriesWithCards = useMemo(() => {
     const p = partitionByType(cards)
     const set = new Set<Exclude<View, 'home' | 'search'>>()
@@ -107,9 +108,9 @@ export function HomeView({ factions, cards, expansions, onOpenSearch, onOpenFact
             )
           })}
       </nav>
-      <section className="home-factions" aria-label="Browse by faction">
+      <section className="home-factions" aria-label={expansions.has('twilightsFall') ? 'Browse by Mahact King' : 'Browse by faction'}>
         <div className="home-factions__header">
-          <h2 className="section-title">Browse by faction</h2>
+          <h2 className="section-title">{expansions.has('twilightsFall') ? 'Browse by Mahact King' : 'Browse by faction'}</h2>
           <label className="faction-portraits-toggle">
             <input
               type="checkbox"
@@ -130,6 +131,23 @@ export function HomeView({ factions, cards, expansions, onOpenSearch, onOpenFact
             />
           ))}
         </div>
+        {expansions.has('twilightsFall') && priorityFactions.length > 0 && (
+          <>
+            <div className="home-factions__header" style={{ marginTop: '1.5rem' }}>
+              <h2 className="section-title">Browse by Faction (Priority Order)</h2>
+            </div>
+            <div className="faction-grid">
+              {priorityFactions.map((faction) => (
+                <FactionGridItem
+                  key={faction.id}
+                  faction={faction}
+                  portraitMode={factionPortraits}
+                  onOpenFaction={onOpenFaction}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </section>
     </div>
   )
