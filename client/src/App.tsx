@@ -193,6 +193,7 @@ export function App() {
     }
     if (expansions.has('twilightsFall')) {
       result = result.filter((card) => {
+        if (card.type === 'plot') return false
         if ('excludeInTwilightsFall' in card && card.excludeInTwilightsFall) return false
         if (card.type === 'galactic_event') return false
         if (card.type === 'action' && card.version.toLowerCase() !== 'twilights fall') return false

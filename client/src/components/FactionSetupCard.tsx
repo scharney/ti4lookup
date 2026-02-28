@@ -11,18 +11,20 @@ interface FactionSetupCardProps {
   isTwilightsFall?: boolean
 }
 
+function isMahactKing(faction: Faction): boolean {
+  return (faction.version ?? '').toLowerCase() === 'twilights fall'
+}
+
 function getFactionSetupCopyText(faction: Faction, isTwilightsFall?: boolean): string {
   const parts: string[] = [faction.name]
   if (faction.startingFleet?.trim()) {
     parts.push(`Starting Fleet\n${faction.startingFleet}`)
   }
-  if (!isTwilightsFall) {
-    if (faction.startingTechnologies?.trim()) {
-      parts.push(`Starting Technologies\n${faction.startingTechnologies}`)
-    }
-    if (faction.commodities != null) {
-      parts.push(`${faction.commodities} Commodities`)
-    }
+  if (faction.commodities != null && (!isTwilightsFall || isMahactKing(faction))) {
+    parts.push(`${faction.commodities} Commodities`)
+  }
+  if (!isTwilightsFall && faction.startingTechnologies?.trim()) {
+    parts.push(`Starting Technologies\n${faction.startingTechnologies}`)
   }
   if (faction.homeSystem?.trim()) {
     parts.push(`Home System\n${faction.homeSystem}`)
@@ -83,11 +85,12 @@ function parseStartingTechs(raw: string): { prefix: string; techNames: string[] 
 }
 
 export function FactionSetupCard({ faction, techNameToColor, isTwilightsFall }: FactionSetupCardProps) {
-  const hideCommoditiesAndTech = isTwilightsFall
+  const hideTech = isTwilightsFall
+  const hideCommodities = isTwilightsFall && !isMahactKing(faction)
   const hasFleet = Boolean(faction.startingFleet?.trim())
-  const hasTech = !hideCommoditiesAndTech && Boolean(faction.startingTechnologies?.trim())
+  const hasTech = !hideTech && Boolean(faction.startingTechnologies?.trim())
   const hasHomeSystem = Boolean(faction.homeSystem?.trim())
-  const hasCommodities = !hideCommoditiesAndTech && faction.commodities != null
+  const hasCommodities = !hideCommodities && faction.commodities != null
   const hasPriority = faction.priority != null
   const { prefix, techNames } = parseStartingTechs(faction.startingTechnologies ?? '')
 
@@ -154,7 +157,7 @@ export function FactionSetupCard({ faction, techNameToColor, isTwilightsFall }: 
               <p className="result-row__effect">{faction.homeSystem}</p>
             </>
           )}
-          {(hasFleet || hasTech || hasHomeSystem) && hasCommodities && <div style={{ marginBottom: '1em' }} />}
+          {hasCommodities && <div style={{ marginBottom: '1em' }} />}
           {hasCommodities && (
             <>
               <p className="result-row__label">{faction.commodities} Commodities</p>
