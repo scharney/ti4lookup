@@ -1,4 +1,4 @@
-faction id,name,text,techType,version,exclude after,needs pok
+faction id,name,text,techType,version,exclude after,requires pok
 arborec,Mitosis,"Your space docks cannot produce infantry. At the start of the status phase, place 1 infantry from your reinforcements on any planet you control.",,base game,,
 argent,Raid Formation,"When 1 or more of your units uses ANTI-FIGHTER BARRAGE: for each hit produced in excess of your opponent's fighters, choose 1 of your opponent's ships that has SUSTAIN DAMAGE to become damaged.",,pok,,
 argent,Zeal,"You always vote first during the agenda phase. When you cast at least 1 vote, cast 1 additional vote for each player in the game including you.",,pok,,

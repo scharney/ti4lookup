@@ -1,4 +1,4 @@
-name,faction id,type,unit,prerequisites,effect,version,exclude after,needs pok
+name,faction id,type,unit,prerequisites,effect,version,exclude after,requires pok
 Antimass Deflectors,,blue,,[],"Your ships can move into and through asteroid fields.,
 When other players' units use SPACE CANNON against your units, apply -1 to the result of each die roll.",base game,,
 Dark Energy Tap,,blue,,[],"After you perform a tactical action in a system that contains a frontier token, if you have 1 or more ships in that system, explore that token.,

@@ -1,4 +1,4 @@
-name,faction id,unit,cost,combat,move,capacity,text abilities,unit abilities,version,exclude after,needs pok
+name,faction id,unit,cost,combat,move,capacity,text abilities,unit abilities,version,exclude after,requires pok
 Infantry I,,infantry,0.5,8,,,,,base game,,
 Fighter I,,fighter,0.5,9,,,,,base game,,
 Destroyer I,,destroyer,1,9,2,,,ANTI-FIGHTER BARRAGE 9(x2).,base game,,

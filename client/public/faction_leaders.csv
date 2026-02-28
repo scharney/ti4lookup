@@ -1,4 +1,4 @@
-faction id,type,name,unlock condition,ability name,ability,version,exclude after,tribuni id,needs pok
+faction id,type,name,unlock condition,ability name,ability,version,exclude after,tribuni id,requires pok
 arborec,agent,Letani Ospha: Unity through Peace,Always Unlocked,,ACTION: Exhaust this card and choose a player's non-fighter ship: that player may replace that ship with one from their reinforcements that costs up to 2 more than the replaced ship.,pok,,,
 arborec,commander,Dirzuga Rophal: Peace through Strength,Have 12 ground forces on planets you control.,,After another player activates a system that contains 1 or more of your units that have PRODUCTION: You may produce 1 unit in that system.,pok,,,
 arborec,hero,Letani Miasmiala: Strength through Unity,have 3 scored objectives,Ultrasonic Emitter: Overgrowth,"ACTION: Produce any number of units in any number of systems that contain 1 or more of your ground forces. Then, purge this card.",pok,,,

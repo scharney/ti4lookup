@@ -242,7 +242,7 @@ export async function loadFactionAbilities(): Promise<FactionAbility[]> {
     techType: (row.techType ?? '').trim() || undefined,
     version: row.version ?? '',
     excludeAfter: (row['exclude after'] ?? '').trim() || undefined,
-    requiresPok: (row['needs pok'] ?? '').toLowerCase() === 'true',
+    requiresPok: (row['requires pok'] ?? '').toLowerCase() === 'true',
   }))
 }
 
@@ -260,7 +260,7 @@ export async function loadFactionLeaders(): Promise<FactionLeader[]> {
     ability: row.ability ?? '',
     version: row.version ?? '',
     excludeAfter: (row['exclude after'] ?? '').trim() || undefined,
-    requiresPok: (row['needs pok'] ?? '').toLowerCase() === 'true',
+    requiresPok: (row['requires pok'] ?? '').toLowerCase() === 'true',
   }))
 }
 
@@ -303,7 +303,7 @@ export async function loadTechnologies(): Promise<Technology[]> {
     effect: row.effect ?? '',
     version: row.version ?? '',
     excludeAfter: (row['exclude after'] ?? '').trim() || undefined,
-    requiresPok: (row['needs pok'] ?? '').toLowerCase() === 'true',
+    requiresPok: (row['requires pok'] ?? '').toLowerCase() === 'true',
   }))
 }
 
@@ -321,7 +321,7 @@ export async function loadGalacticEvents(): Promise<GalacticEvent[]> {
     name: row.name ?? '',
     effect: row.effect ?? '',
     version: row.version ?? '',
-    requiresPok: (row['needs pok'] ?? '').toLowerCase() === 'true',
+    requiresPok: (row['requires pok'] ?? '').toLowerCase() === 'true',
   }))
 }
 
@@ -353,7 +353,7 @@ export async function loadUnits(): Promise<Unit[]> {
     unitAbilities: row['unit abilities'] ?? '',
     version: row.version ?? '',
     excludeAfter: (row['exclude after'] ?? '').trim() || undefined,
-    requiresPok: (row['needs pok'] ?? '').toLowerCase() === 'true',
+    requiresPok: (row['requires pok'] ?? '').toLowerCase() === 'true',
   }))
 }
 
