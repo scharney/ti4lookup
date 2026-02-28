@@ -230,7 +230,13 @@ function filterByType(cards: CardItem[], type: CardType): CardItem[] {
   if (type === 'technology_faction') return cards.filter((c) => c.type === 'technology' && (c.factionId ?? '').trim() !== '')
   if (type === 'unit_general') return cards.filter((c) => c.type === 'unit' && !(c.factionId ?? '').trim())
   if (type === 'unit_faction') return cards.filter((c) => c.type === 'unit' && (c.factionId ?? '').trim() !== '')
-  if (type === 'unit') return cards.filter((c) => c.type === 'unit')
+  if (type === 'unit') {
+    return cards.filter(
+      (c) =>
+        c.type === 'unit' ||
+        (c.type === 'technology' && (c.techType ?? '').toLowerCase() === 'unit upgrade')
+    )
+  }
   if (type === 'relic') return cards.filter((c) => c.type === 'exploration' && (c.explorationType ?? '').toLowerCase() === 'relic')
   if (type === 'exploration') return cards.filter((c) => c.type === 'exploration' && (c.explorationType ?? '').toLowerCase() !== 'relic')
   return cards.filter((c) => c.type === type)
@@ -269,9 +275,14 @@ export function useFuseSearch(cards: CardItem[], options: UseFuseSearchOptions =
     if (typeFilter === 'unit_faction') return sortByUnitFaction(filteredCards)
     if (typeFilter === 'unit') {
       const unitCards = filteredCards.filter((c) => c.type === 'unit')
+      const unitUpgradeTechs = filteredCards.filter(
+        (c) => c.type === 'technology' && (c.techType ?? '').toLowerCase() === 'unit upgrade'
+      )
       const general = sortByUnitGeneral(unitCards.filter((c) => !(c.factionId ?? '').trim()))
       const faction = sortByUnitFaction(unitCards.filter((c) => (c.factionId ?? '').trim() !== ''))
-      return [...general, ...faction]
+      const techGeneral = sortByTechnology(unitUpgradeTechs.filter((c) => !('factionId' in c && (c.factionId ?? '').trim())))
+      const techFaction = sortByTechnologyFaction(unitUpgradeTechs.filter((c) => 'factionId' in c && (c.factionId ?? '').trim() !== ''))
+      return [...general, ...faction, ...techGeneral, ...techFaction]
     }
     return sortByName(filteredCards)
   }, [filteredCards, typeFilter])
@@ -290,9 +301,14 @@ export function useFuseSearch(cards: CardItem[], options: UseFuseSearchOptions =
     if (typeFilter === 'unit_faction') return sortByUnitFaction(items)
     if (typeFilter === 'unit') {
       const unitCards = items.filter((c) => c.type === 'unit')
+      const unitUpgradeTechs = items.filter(
+        (c) => c.type === 'technology' && (c.techType ?? '').toLowerCase() === 'unit upgrade'
+      )
       const general = sortByUnitGeneral(unitCards.filter((c) => !(c.factionId ?? '').trim()))
       const faction = sortByUnitFaction(unitCards.filter((c) => (c.factionId ?? '').trim() !== ''))
-      return [...general, ...faction]
+      const techGeneral = sortByTechnology(unitUpgradeTechs.filter((c) => !('factionId' in c && (c.factionId ?? '').trim())))
+      const techFaction = sortByTechnologyFaction(unitUpgradeTechs.filter((c) => 'factionId' in c && (c.factionId ?? '').trim() !== ''))
+      return [...general, ...faction, ...techGeneral, ...techFaction]
     }
     return items
   }, [debouncedQuery, fuse, allSorted, limit, typeFilter])

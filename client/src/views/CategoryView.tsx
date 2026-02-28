@@ -35,7 +35,7 @@ const getCategoryLabels = (isTwilightsFall: boolean): Record<CardType, string> =
   agenda: isTwilightsFall ? 'Edicts' : 'Agendas',
   faction_leader: isTwilightsFall ? 'Genomes & Paradigms' : 'Faction Leaders',
   faction_ability: isTwilightsFall ? 'Abilities' : 'Faction Abilities',
-  unit: isTwilightsFall ? 'Units & Upgrades' : 'Units',
+  unit: 'Units & Upgrades',
   unit_faction: isTwilightsFall ? 'Unit Upgrades' : 'Faction Units',
 })
 
@@ -123,6 +123,16 @@ export function CategoryView({ cards, category, onBack, isTwilightsFall }: Categ
       general: partitioned.unit_general,
       faction: partitioned.unit_faction,
     }
+  }, [category, results])
+
+  const unitUpgradeTechnologies = useMemo(() => {
+    if (category !== 'unit') return []
+    const techs = results.filter(
+      (c) => c.type === 'technology' && (c.techType ?? '').toLowerCase() === 'unit upgrade'
+    )
+    const general = sortByName(techs.filter((c) => !('factionId' in c && (c.factionId ?? '').trim())))
+    const faction = sortByName(techs.filter((c) => 'factionId' in c && (c.factionId ?? '').trim() !== ''))
+    return [...general, ...faction]
   }, [category, results])
 
   const agendaBySection = useMemo(() => {
@@ -265,6 +275,12 @@ export function CategoryView({ cards, category, onBack, isTwilightsFall }: Categ
             )}
             {unitBySection.general.length === 0 && unitBySection.faction.length === 0 && (
               <p className="results-message">No units found.</p>
+            )}
+            {unitUpgradeTechnologies.length > 0 && (
+              <section className="results-section" aria-label="Unit Upgrades">
+                <h3 className="section-title section-title--sub">Unit Upgrades</h3>
+                <ResultsList cards={unitUpgradeTechnologies} />
+              </section>
             )}
           </>
         ) : agendaBySection ? (

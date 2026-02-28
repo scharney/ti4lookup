@@ -61,7 +61,7 @@ function getCategoryLabels(expansions: Set<ExpansionId>): Record<Exclude<Locatio
     breakthrough: 'Breakthroughs',
     technology: 'Technologies',
     galactic_event: 'Galactic Events',
-    unit: isTwilightsFall ? 'Units & Upgrades' : 'Units',
+    unit: 'Units & Upgrades',
   }
 }
 
