@@ -99,6 +99,52 @@
   --shadow-focus: 0 0 0 2px rgba(139, 92, 246, 0.35);
 }
 
+/* --- Acheron: Vuil'Raith Cabal — dark red/black, electric blue & pink/purple highlights --- */
+[data-theme='acheron'] {
+  --color-bg: #0f080a;
+  --color-bg-header: #1a0d10;
+  --color-bg-card: #251218;
+  --color-bg-input: #1f0f12;
+  --color-bg-btn: #2d151a;
+  --color-bg-btn-hover: #3d1a22;
+  --color-text: #f5f0f2;
+  --color-text-muted: #e0d0d8;
+  --color-text-subtle: #c8b0b8;
+  --color-text-inverse: #0f080a;
+  --color-border: #5a2832;
+  --color-border-card: #6a3040;
+  --color-border-focus: #00d4ff;
+  --color-accent: #00d4ff;
+  --color-error: #e86078;
+  --shadow-focus: 0 0 0 2px rgba(0, 212, 255, 0.45);
+}
+
+/* Acheron: ensure buttons and cards stand out clearly */
+[data-theme='acheron'] .home-category-btn,
+[data-theme='acheron'] .home-search-trigger,
+[data-theme='acheron'] .expansion-selector__trigger,
+[data-theme='acheron'] .theme-selector__trigger {
+  border-width: 1.5px;
+  border-color: #6a3040;
+}
+
+[data-theme='acheron'] .home-category-btn:hover:not(:disabled),
+[data-theme='acheron'] .expansion-selector__trigger:hover,
+[data-theme='acheron'] .theme-selector__trigger:hover {
+  border-color: #00d4ff;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.25);
+}
+
+[data-theme='acheron'] .result-row {
+  border-color: #5a2832;
+  background: #251218;
+}
+
+[data-theme='acheron'] .search-input {
+  border-width: 1.5px;
+  border-color: #5a2832;
+}
+
 /* --- Mordai: hacker terminal — black bg, vibrant green outlines --- */
 [data-theme='mordai'] {
   --color-bg: #0a0a0a;
@@ -837,7 +883,8 @@ body {
 [data-theme='hylar'] .result-row__copy-icon--light,
 [data-theme='gashlai'] .result-row__copy-icon--light,
 [data-theme='void'] .result-row__copy-icon--light,
-[data-theme='mordai'] .result-row__copy-icon--light {
+[data-theme='mordai'] .result-row__copy-icon--light,
+[data-theme='acheron'] .result-row__copy-icon--light {
   display: none;
 }
 
@@ -845,7 +892,8 @@ body {
 [data-theme='hylar'] .result-row__copy-icon--dark,
 [data-theme='gashlai'] .result-row__copy-icon--dark,
 [data-theme='void'] .result-row__copy-icon--dark,
-[data-theme='mordai'] .result-row__copy-icon--dark {
+[data-theme='mordai'] .result-row__copy-icon--dark,
+[data-theme='acheron'] .result-row__copy-icon--dark {
   display: block;
 }
 

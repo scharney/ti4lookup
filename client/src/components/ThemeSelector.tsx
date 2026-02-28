@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-export type ThemeId = 'light' | 'dark' | 'hylar' | 'gashlai' | 'void' | 'mordai'
+export type ThemeId = 'light' | 'dark' | 'hylar' | 'gashlai' | 'void' | 'mordai' | 'acheron'
 
 export const THEME_OPTIONS: { id: ThemeId; label: string }[] = [
   { id: 'light', label: 'Light' },
@@ -9,6 +9,7 @@ export const THEME_OPTIONS: { id: ThemeId; label: string }[] = [
   { id: 'gashlai', label: 'Gashlai' },
   { id: 'void', label: 'Void' },
   { id: 'mordai', label: 'Mordai' },
+  { id: 'acheron', label: 'Acheron' },
 ]
 
 interface ThemeSelectorProps {
