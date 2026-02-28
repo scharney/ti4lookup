@@ -53,7 +53,13 @@ export function AppFooter({ theme, onThemeChange }: AppFooterProps) {
           className="app-footer__link"
         >
           bern
-        </a>
+        </a>, contributions from{' '}
+        <a
+          href="https://github.com/scharney"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="app-footer__link"
+        >scharney</a>
       </p>
       <p className="app-footer__text">
         Have requests or spot a typo? Let me know by opening an{' '}

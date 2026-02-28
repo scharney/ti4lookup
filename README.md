@@ -68,6 +68,7 @@ client/
 
 ## Credits
 
+- [scharney](https://github.com/scharney) for hand-transcribing the Twilight's Fall components and contributing the initial integration
 - Social image background: [X-ray: NASA/CXC/PSU/L.Townsley et al; Optical: UKIRT; Infrared: NASA/JPL-Caltech](https://chandra.si.edu/photo/2016/ngc6357/)
 - Social image font: [Science Gothic, Designed by: Thomas Phinney, Vassil Kateliev, Brandon Buerkle (via Google Fonts)](https://fonts.google.com/specimen/Science+Gothic)
 - Data sources: [AsyncTI4/TI4_map_generator_bot](https://github.com/AsyncTI4/TI4_map_generator_bot) and the [Twilight Imperium Wiki on fandom.com](https://twilight-imperium.fandom.com/wiki/Twilight_Imperium_Wiki)
