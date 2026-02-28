@@ -170,8 +170,8 @@ export function SearchView({
               </section>
             )}
             {partitioned.unit_faction.length > 0 && (
-              <section className="results-section" aria-label="Faction Units">
-                <h2 className="section-title">Faction Units</h2>
+              <section className="results-section" aria-label={isTwilightsFall ? 'Unit Upgrades' : 'Faction Units'}>
+                <h2 className="section-title">{isTwilightsFall ? 'Unit Upgrades' : 'Faction Units'}</h2>
                 <ResultsList cards={partitioned.unit_faction} />
               </section>
             )}
@@ -182,8 +182,8 @@ export function SearchView({
               </section>
             )}
             {partitioned.faction_leader.length > 0 && (
-              <section className="results-section" aria-label="Faction Leaders">
-                <h2 className="section-title">Faction Leaders</h2>
+              <section className="results-section" aria-label={isTwilightsFall ? 'Genomes & Paradigms' : 'Faction Leaders'}>
+                <h2 className="section-title">{isTwilightsFall ? 'Genomes & Paradigms' : 'Faction Leaders'}</h2>
                 <ResultsList cards={partitioned.faction_leader} />
               </section>
             )}
@@ -249,8 +249,8 @@ export function SearchView({
               </section>
             )}
             {partitioned.unit_faction.length > 0 && (
-              <section className="results-section" aria-label="Faction Units">
-                <h2 className="section-title">Faction Units</h2>
+              <section className="results-section" aria-label={isTwilightsFall ? 'Unit Upgrades' : 'Faction Units'}>
+                <h2 className="section-title">{isTwilightsFall ? 'Unit Upgrades' : 'Faction Units'}</h2>
                 <ResultsList cards={partitioned.unit_faction} />
               </section>
             )}
