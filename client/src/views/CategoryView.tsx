@@ -5,7 +5,7 @@ import { useFuseSearch, sortByName, partitionByType } from '../search/useFuseSea
 import type { CardItem } from '../types'
 import type { CardType } from '../search/useFuseSearch'
 
-const CATEGORY_LABELS: Record<CardType, string> = {
+const BASE_CATEGORY_LABELS: Record<CardType, string> = {
   action: 'Action Cards',
   agenda: 'Agendas',
   strategy: 'Strategy Cards',
@@ -30,7 +30,14 @@ const CATEGORY_LABELS: Record<CardType, string> = {
   unit_faction: 'Faction Units',
 }
 
-const CATEGORY_PLACEHOLDERS: Record<CardType, string> = {
+const getCategoryLabels = (isTwilightsFall: boolean): Record<CardType, string> => ({
+  ...BASE_CATEGORY_LABELS,
+  agenda: isTwilightsFall ? 'Edicts' : 'Agendas',
+  faction_leader: isTwilightsFall ? 'Genomes & Paradigms' : 'Faction Leaders',
+  faction_ability: isTwilightsFall ? 'Abilities' : 'Faction Abilities',
+})
+
+const BASE_CATEGORY_PLACEHOLDERS: Record<CardType, string> = {
   action: 'Search action cards…',
   agenda: 'Search agendas…',
   strategy: 'Search strategy cards…',
@@ -55,16 +62,27 @@ const CATEGORY_PLACEHOLDERS: Record<CardType, string> = {
   unit_faction: 'Search faction units…',
 }
 
+const getCategoryPlaceholders = (isTwilightsFall: boolean): Record<CardType, string> => ({
+  ...BASE_CATEGORY_PLACEHOLDERS,
+  agenda: isTwilightsFall ? 'Search edicts…' : 'Search agendas…',
+  faction_leader: isTwilightsFall ? 'Search genomes & paradigms…' : 'Search faction leaders…',
+  faction_ability: isTwilightsFall ? 'Search abilities…' : 'Search faction abilities…',
+})
+
 interface CategoryViewProps {
   cards: CardItem[]
   category: CardType
   onBack: () => void
+  isTwilightsFall: boolean
 }
 
-export function CategoryView({ cards, category, onBack }: CategoryViewProps) {
+export function CategoryView({ cards, category, onBack, isTwilightsFall }: CategoryViewProps) {
   const { query, setQuery, results } = useFuseSearch(cards, {
     typeFilter: category,
   })
+
+  const CATEGORY_LABELS = useMemo(() => getCategoryLabels(isTwilightsFall), [isTwilightsFall])
+  const CATEGORY_PLACEHOLDERS = useMemo(() => getCategoryPlaceholders(isTwilightsFall), [isTwilightsFall])
 
   const publicByStage = useMemo(() => {
     if (category !== 'public_objective') return null
@@ -111,7 +129,18 @@ export function CategoryView({ cards, category, onBack }: CategoryViewProps) {
     const getAgendaType = (c: CardItem) => ('agendaType' in c ? (c as { agendaType: string }).agendaType : '')
     const law = sortByName(agendaCards.filter((c) => getAgendaType(c).toLowerCase() === 'law'))
     const directive = sortByName(agendaCards.filter((c) => getAgendaType(c).toLowerCase() === 'directive'))
-    return { law, directive }
+    const edict = sortByName(agendaCards.filter((c) => getAgendaType(c).toLowerCase() === 'edict'))
+    return { law, directive, edict }
+  }, [category, results])
+
+    const leadersBySection = useMemo(() => {
+    if (category !== 'faction_leader') return null
+    const factionLeaderCards = results.filter((c) => c.type === 'faction_leader')
+    const getLeaderType = (c: CardItem) => ('leaderType' in c ? (c as { leaderType: string }).leaderType : '')
+    const genomes = sortByName(factionLeaderCards.filter((c) => getLeaderType(c).toLowerCase() === 'genome'))
+    const paradigms = sortByName(factionLeaderCards.filter((c) => getLeaderType(c).toLowerCase() === 'paradigm'))
+    const leaders = sortByName(factionLeaderCards.filter((c) => (getLeaderType(c).toLowerCase() !== 'paradigm') && (getLeaderType(c).toLowerCase() !== 'genome')))
+    return { genomes, paradigms, leaders }
   }, [category, results])
 
   return (
@@ -251,8 +280,39 @@ export function CategoryView({ cards, category, onBack }: CategoryViewProps) {
                 <ResultsList cards={agendaBySection.directive} />
               </section>
             )}
-            {agendaBySection.law.length === 0 && agendaBySection.directive.length === 0 && (
+            {agendaBySection.edict.length > 0 && (
+              <section className="results-section" aria-label="Edicts">
+                <h3 className="section-title section-title--sub">Edicts</h3>
+                <ResultsList cards={agendaBySection.edict} />
+              </section>
+            )}
+            {agendaBySection.law.length === 0 && agendaBySection.directive.length === 0 && agendaBySection.edict.length === 0 && (
               <p className="results-message">No agendas found.</p>
+            )}
+          </>
+        ) : leadersBySection ? (
+          <>
+            <h2 className='section-title'>{CATEGORY_LABELS[category]}</h2>
+            {leadersBySection.genomes.length > 0 && (
+              <section className="results-section" aria-label="Genomes">
+                <h3 className="section-title section-title--sub">Genomes</h3>
+                <ResultsList cards={leadersBySection.genomes} />
+              </section>
+            )}
+            {leadersBySection.paradigms.length > 0 && (
+              <section className="results-section" aria-label="Paradigms">
+                <h3 className="section-title section-title--sub">Paradigms</h3>
+                <ResultsList cards={leadersBySection.paradigms} />
+              </section>
+            )}
+            {leadersBySection.leaders.length > 0 && (
+              <section className="results-section" aria-label="Faction Leaders">
+                <h3 className="section-title section-title--sub">Faction Leaders</h3>
+                <ResultsList cards={leadersBySection.leaders} />
+              </section>
+            )}
+            {leadersBySection.genomes.length === 0 && leadersBySection.paradigms.length === 0 && leadersBySection.leaders.length === 0 && (
+              <p className="results-message">No leaders found.</p>
             )}
           </>
         ) : (

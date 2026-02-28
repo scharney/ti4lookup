@@ -21,7 +21,16 @@ function partitionAgendas(agendaCards: CardItem[]) {
   const getAgendaType = (c: CardItem) => ('agendaType' in c ? (c as { agendaType: string }).agendaType : '')
   const law = sortByName(agendaCards.filter((c) => getAgendaType(c).toLowerCase() === 'law'))
   const directive = sortByName(agendaCards.filter((c) => getAgendaType(c).toLowerCase() === 'directive'))
-  return { law, directive }
+  const edict = sortByName(agendaCards.filter((c) => getAgendaType(c).toLowerCase() === 'edict'))
+  return { law, directive, edict }
+}
+
+function partitionFactionLeaders(factionLeaderCards: CardItem[]) {
+  const getLeaderType = (c: CardItem) => ('leaderType' in c ? (c as { leaderType: string }).leaderType : '')
+  const genomes = sortByName(factionLeaderCards.filter((c) => getLeaderType(c).toLowerCase() === 'genome'))
+  const paradigms = sortByName(factionLeaderCards.filter((c) => getLeaderType(c).toLowerCase() === 'paradigm'))
+  const leaders = sortByName(factionLeaderCards.filter((c) => (getLeaderType(c).toLowerCase() !== 'paradigm') && (getLeaderType(c).toLowerCase() !== 'genome')))
+  return { genomes, paradigms, leaders }
 }
 
 interface SearchViewProps {
@@ -31,6 +40,7 @@ interface SearchViewProps {
   factionFilterName: string | null
   faction: Faction | null
   techNameToColor: Map<string, string>
+  isTwilightsFall: boolean
   onAddRecent: (query: string) => void
   onBack: () => void
 }
@@ -42,6 +52,7 @@ export function SearchView({
   factionFilterName,
   faction,
   techNameToColor,
+  isTwilightsFall,
   onAddRecent,
   onBack,
 }: SearchViewProps) {
@@ -70,6 +81,10 @@ export function SearchView({
   const agendaSections = useMemo(
     () => partitionAgendas(partitioned.agenda),
     [partitioned.agenda]
+  )
+  const factionLeaderSections = useMemo(
+    () => partitionFactionLeaders(partitioned.faction_leader),
+    [partitioned.faction_leader]
   )
   const hasQuery = query.trim() !== ''
   const showRecent = !hasQuery && recentSearches.length > 0 && !factionFilter
@@ -137,8 +152,8 @@ export function SearchView({
               </section>
             )}
             {partitioned.faction_ability.length > 0 && (
-              <section className="results-section" aria-label="Faction Abilities">
-                <h2 className="section-title">Faction Abilities</h2>
+              <section className="results-section" aria-label={isTwilightsFall ? 'Abilities' : 'Faction Abilities'}>
+                <h2 className="section-title">{isTwilightsFall ? 'Abilities' : 'Faction Abilities'}</h2>
                 <ResultsList cards={partitioned.faction_ability} />
               </section>
             )}
@@ -216,8 +231,8 @@ export function SearchView({
               </section>
             )}
             {partitioned.faction_ability.length > 0 && (
-              <section className="results-section" aria-label="Faction Abilities">
-                <h2 className="section-title">Faction Abilities</h2>
+              <section className="results-section" aria-label={isTwilightsFall ? 'Abilities' : 'Faction Abilities'}>
+                <h2 className="section-title">{isTwilightsFall ? 'Abilities' : 'Faction Abilities'}</h2>
                 <ResultsList cards={partitioned.faction_ability} />
               </section>
             )}
@@ -245,10 +260,27 @@ export function SearchView({
                 <ResultsList cards={partitioned.technology_faction} />
               </section>
             )}
-            {partitioned.faction_leader.length > 0 && (
-              <section className="results-section" aria-label="Faction Leaders">
-                <h2 className="section-title">Faction Leaders</h2>
-                <ResultsList cards={partitioned.faction_leader} />
+            {(factionLeaderSections.genomes.length > 0 || factionLeaderSections.paradigms.length > 0 || factionLeaderSections.leaders.length > 0) && (
+              <section className="results-section" aria-label={isTwilightsFall ? 'Genomes & Paradigms' : 'Faction Leaders'}>
+                <h2 className="section-title">{isTwilightsFall ? 'Genomes & Paradigms' : 'Faction Leaders'}</h2>
+                {factionLeaderSections.genomes.length > 0 && (
+                  <>
+                    <h3 className="section-title section-title--sub">Genomes</h3>
+                    <ResultsList cards={factionLeaderSections.genomes} />
+                  </>
+                )}
+                {factionLeaderSections.paradigms.length > 0 && (
+                  <>
+                    <h3 className="section-title section-title--sub">Paradigms</h3>
+                    <ResultsList cards={factionLeaderSections.paradigms} />
+                  </>
+                )}
+                {factionLeaderSections.leaders.length > 0 && (
+                  <>
+                    <h3 className="section-title section-title--sub">Faction Leaders</h3>
+                    <ResultsList cards={factionLeaderSections.leaders} />
+                  </>
+                )}
               </section>
             )}
             {partitioned.promissory_note_general.length > 0 && (
@@ -309,9 +341,9 @@ export function SearchView({
                 )}
               </section>
             )}
-            {(agendaSections.law.length > 0 || agendaSections.directive.length > 0) && (
-              <section className="results-section" aria-label="Agendas">
-                <h2 className="section-title">Agendas</h2>
+            {(agendaSections.law.length > 0 || agendaSections.directive.length > 0 || agendaSections.edict.length > 0) && (
+              <section className="results-section" aria-label={isTwilightsFall ? 'Edicts' : 'Agendas'}>
+                <h2 className="section-title">{isTwilightsFall ? 'Edicts' : 'Agendas'}</h2>
                 {agendaSections.law.length > 0 && (
                   <>
                     <h3 className="section-title section-title--sub">Laws</h3>
@@ -322,6 +354,12 @@ export function SearchView({
                   <>
                     <h3 className="section-title section-title--sub">Directives</h3>
                     <ResultsList cards={agendaSections.directive} />
+                  </>
+                )}
+                {agendaSections.edict.length > 0 && (
+                  <>
+                    <h3 className="section-title section-title--sub">Edicts</h3>
+                    <ResultsList cards={agendaSections.edict} />
                   </>
                 )}
               </section>
