@@ -154,6 +154,17 @@ export function App() {
         if (card.type === 'agenda' && 'excludeIn' in card && isExcludedByExcludeIn(card.excludeIn, expansions)) return false
         return true
       })
+      if (expansions.has('twilightsFall')) {
+        const pokSelected = expansions.has('pok')
+        result = result.filter((card) => {
+          if (card.type !== 'technology' || (card.factionId ?? '').trim()) return true
+          if ((card.version ?? '').toLowerCase() !== 'twilights fall') return true
+          const base = (card.name ?? '').replace(/Ω/g, '').replace(/\s+/g, ' ').trim()
+          if (base !== 'Wavelength' && base !== 'Antimatter') return true
+          const wantsPok = 'requiresPok' in card && card.requiresPok === true
+          return wantsPok === pokSelected
+        })
+      }
       result = filterToLatestOmega(result)
     }
     if (!expansions.has('pok')) {
