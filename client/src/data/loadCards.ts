@@ -113,6 +113,7 @@ export async function loadObjectives(): Promise<{ public: PublicObjective[]; sec
     whenToScore: row['when to score'] ?? '',
     version: row.version ?? '',
     excludeAfter: (row['exclude after'] ?? '').trim() || undefined,
+    excludeInTwilightsFall: (row['exclude in twilights fall'] ?? '').toLowerCase() === 'true',
   }))
   const publicObjectives: PublicObjective[] = []
   const secretObjectives: SecretObjective[] = []
@@ -125,6 +126,7 @@ export async function loadObjectives(): Promise<{ public: PublicObjective[]; sec
         stage: '1',
         whenToScore: r.whenToScore,
         version: r.version,
+        excludeInTwilightsFall: r.excludeInTwilightsFall,
       })
     } else if (r.type === 'stage 2 public') {
       publicObjectives.push({
@@ -134,6 +136,7 @@ export async function loadObjectives(): Promise<{ public: PublicObjective[]; sec
         stage: '2',
         whenToScore: r.whenToScore,
         version: r.version,
+        excludeInTwilightsFall: r.excludeInTwilightsFall,
       })
     } else if (r.type === 'secret') {
       secretObjectives.push({
@@ -143,6 +146,7 @@ export async function loadObjectives(): Promise<{ public: PublicObjective[]; sec
         whenToScore: r.whenToScore,
         version: r.version,
         excludeAfter: r.excludeAfter,
+        excludeInTwilightsFall: r.excludeInTwilightsFall,
       })
     }
   }
@@ -165,6 +169,7 @@ export async function loadLegendaryPlanets(): Promise<LegendaryPlanet[]> {
     howToAcquire: row['how to acquire'] ?? '',
     version: row.version ?? '',
     excludeAfter: (row['exclude after'] ?? '').trim() || undefined,
+    excludeInTwilightsFall: (row['exclude in twilights fall'] ?? '').toLowerCase() === 'true',
   }))
 }
 
@@ -178,6 +183,7 @@ export async function loadExploration(): Promise<Exploration[]> {
     quantity: row.quantity ?? '',
     effect: row.effect ?? '',
     version: row.version ?? '',
+    excludeInTwilightsFall: (row['exclude in twilights fall'] ?? '').toLowerCase() === 'true',
   }))
 }
 

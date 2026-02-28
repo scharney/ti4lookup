@@ -49,6 +49,7 @@ export interface PublicObjective {
   stage: string
   whenToScore: string
   version: string
+  excludeInTwilightsFall?: boolean
 }
 
 /**
@@ -61,6 +62,7 @@ export interface SecretObjective {
   whenToScore: string
   version: string
   excludeAfter?: string
+  excludeInTwilightsFall?: boolean
 }
 
 /**
@@ -78,6 +80,7 @@ export interface LegendaryPlanet {
   howToAcquire: string
   version: string
   excludeAfter?: string
+  excludeInTwilightsFall?: boolean
 }
 
 /**
@@ -89,6 +92,7 @@ export interface Exploration {
   quantity: string
   effect: string
   version: string
+  excludeInTwilightsFall?: boolean
 }
 
 /**
